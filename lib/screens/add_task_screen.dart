@@ -15,7 +15,7 @@ class AddTaskScreen extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(20.0),
+            topLeft: Radius.circular(20.0),
             topRight: Radius.circular(20.0),
           ),
         ),
@@ -23,10 +23,10 @@ class AddTaskScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             Text(
-              'Add Task',
+              'enter stock or crypto code',
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: 30.0,
+                fontSize: 20.0,
                 color: Colors.lightBlueAccent,
               ),
             ),
@@ -46,7 +46,8 @@ class AddTaskScreen extends StatelessWidget {
               ),
               color: Colors.lightBlueAccent,
               onPressed: () {
-                Provider.of<TaskData>(context).addTask(newTaskTitle);
+                Provider.of<TaskData>(context, listen: false)
+                    .addTask(newTaskTitle);
                 Navigator.pop(context);
               },
             ),

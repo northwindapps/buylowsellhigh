@@ -9,6 +9,12 @@ class TaskData extends ChangeNotifier {
     Task(name: 'Buy bread'),
   ];
 
+  int state = 0;
+
+  String _displayText = 'enter crypto or stock code.';
+
+  String get displayText => _displayText;
+
   UnmodifiableListView<Task> get tasks {
     return UnmodifiableListView(_tasks);
   }
@@ -20,6 +26,8 @@ class TaskData extends ChangeNotifier {
   void addTask(String newTaskTitle) {
     final task = Task(name: newTaskTitle);
     _tasks.add(task);
+    state = state + 1;
+    _displayText = 'set a lower limit value';
     notifyListeners();
   }
 
