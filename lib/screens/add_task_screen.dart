@@ -52,7 +52,7 @@ class AddTaskScreen extends StatelessWidget {
             state == 1
                 ? FlatButton(
                     child: Text(
-                      'Add',
+                      'ok',
                       style: TextStyle(
                         color: Colors.white,
                       ),
@@ -62,7 +62,8 @@ class AddTaskScreen extends StatelessWidget {
                       Provider.of<TaskData>(context, listen: false)
                           .addTask(newTaskTitle);
                       Provider.of<TaskData>(context, listen: false).addState();
-                      // Navigator.pop(context);
+                      Provider.of<TaskData>(context, listen: false)
+                          .setTitle('Set a lower limit price.');
                     },
                   )
                 : SizedBox
@@ -70,7 +71,7 @@ class AddTaskScreen extends StatelessWidget {
             state == 2
                 ? FlatButton(
                     child: Text(
-                      'Add',
+                      'ok',
                       style: TextStyle(
                         color: Colors.white,
                       ),
@@ -92,7 +93,8 @@ class AddTaskScreen extends StatelessWidget {
                         onChanged: (value) {
                           Provider.of<TaskData>(context, listen: false)
                               .addState();
-                          // notifier.setBarcodeUser(value as RadioValue);
+                          Provider.of<TaskData>(context, listen: false)
+                              .setTitle('Enter a code.');
                         }),
                     RadioListTile(
                         title: Text("stock"),
@@ -101,6 +103,8 @@ class AddTaskScreen extends StatelessWidget {
                         onChanged: (value) {
                           Provider.of<TaskData>(context, listen: false)
                               .addState();
+                          Provider.of<TaskData>(context, listen: false)
+                              .setTitle('Enter a code.');
                         }),
                   ])
                 : SizedBox

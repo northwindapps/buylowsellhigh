@@ -11,7 +11,7 @@ class TaskData extends ChangeNotifier {
 
   int state = 0;
 
-  String _displayText = 'enter crypto or stock code2.';
+  String _displayText = 'Choose one from them.';
 
   String get displayText => _displayText;
 
@@ -23,9 +23,18 @@ class TaskData extends ChangeNotifier {
     return _tasks.length;
   }
 
+  void setTitle(String newTitle) {
+    _displayText = newTitle;
+  }
+
   void addTask(String newTaskTitle) {
-    final task = Task(name: newTaskTitle);
-    _tasks.add(task);
+    if (newTaskTitle == null) {
+      print('String is null');
+    } else {
+      final task = Task(name: newTaskTitle);
+      _tasks.add(task);
+    }
+
     displayText;
     notifyListeners();
   }
