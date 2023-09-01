@@ -7,7 +7,7 @@ class AddTaskScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String newTaskTitle;
-
+    int state = Provider.of<TaskData>(context, listen: true).state;
     return Container(
       color: Color(0xff757575),
       child: Container(
@@ -23,34 +23,88 @@ class AddTaskScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             Text(
-              'enter stock or crypto code',
+              Provider.of<TaskData>(context, listen: false).displayText,
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 20.0,
                 color: Colors.lightBlueAccent,
               ),
             ),
-            TextField(
-              autofocus: true,
-              textAlign: TextAlign.center,
-              onChanged: (newText) {
-                newTaskTitle = newText;
-              },
-            ),
-            FlatButton(
-              child: Text(
-                'Add',
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-              ),
-              color: Colors.lightBlueAccent,
-              onPressed: () {
-                Provider.of<TaskData>(context, listen: false)
-                    .addTask(newTaskTitle);
-                Navigator.pop(context);
-              },
-            ),
+            state == 1
+                ? TextField(
+                    autofocus: true,
+                    textAlign: TextAlign.center,
+                    onChanged: (newText) {
+                      newTaskTitle = newText;
+                    },
+                  )
+                : SizedBox.shrink(),
+            state == 2
+                ? TextField(
+                    enabled: true,
+                    autofocus: true,
+                    textAlign: TextAlign.center,
+                    onChanged: (newText) {
+                      newTaskTitle = newText;
+                    },
+                  )
+                : SizedBox.shrink(),
+            state == 1
+                ? FlatButton(
+                    child: Text(
+                      'Add',
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
+                    color: Colors.lightBlueAccent,
+                    onPressed: () {
+                      Provider.of<TaskData>(context, listen: false)
+                          .addTask(newTaskTitle);
+                      Provider.of<TaskData>(context, listen: false).addState();
+                      // Navigator.pop(context);
+                    },
+                  )
+                : SizedBox
+                    .shrink(), // This will render an empty space with no size
+            state == 2
+                ? FlatButton(
+                    child: Text(
+                      'Add',
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
+                    color: Colors.lightBlueAccent,
+                    onPressed: () {
+                      Provider.of<TaskData>(context, listen: false)
+                          .resetState();
+                      Navigator.pop(context);
+                    },
+                  )
+                : SizedBox.shrink(), // This w
+            state == 0
+                ? Column(children: [
+                    RadioListTile(
+                        title: Text("crypto"),
+                        value: 0,
+                        groupValue: null,
+                        onChanged: (value) {
+                          Provider.of<TaskData>(context, listen: false)
+                              .addState();
+                          // notifier.setBarcodeUser(value as RadioValue);
+                        }),
+                    RadioListTile(
+                        title: Text("stock"),
+                        value: 1,
+                        groupValue: null,
+                        onChanged: (value) {
+                          Provider.of<TaskData>(context, listen: false)
+                              .addState();
+                        }),
+                  ])
+                : SizedBox
+                    .shrink(), // This will render an empty space with no size
           ],
         ),
       ),

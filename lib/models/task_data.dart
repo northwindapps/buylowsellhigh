@@ -11,7 +11,7 @@ class TaskData extends ChangeNotifier {
 
   int state = 0;
 
-  String _displayText = 'enter crypto or stock code.';
+  String _displayText = 'enter crypto or stock code2.';
 
   String get displayText => _displayText;
 
@@ -26,8 +26,17 @@ class TaskData extends ChangeNotifier {
   void addTask(String newTaskTitle) {
     final task = Task(name: newTaskTitle);
     _tasks.add(task);
-    state = state + 1;
-    _displayText = 'set a lower limit value';
+    displayText;
+    notifyListeners();
+  }
+
+  void addState() {
+    state += 1;
+    notifyListeners();
+  }
+
+  void resetState() {
+    state = 0;
     notifyListeners();
   }
 
