@@ -53,7 +53,7 @@ class TasksScreen extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  '${Provider.of<TaskData>(context).taskCount} Tasks',
+                  '${Provider.of<TaskData>(context).taskCount} Alerts',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 18,

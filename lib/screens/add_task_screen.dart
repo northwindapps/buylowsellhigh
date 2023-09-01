@@ -80,6 +80,8 @@ class AddTaskScreen extends StatelessWidget {
                     onPressed: () {
                       Provider.of<TaskData>(context, listen: false)
                           .resetState();
+                      Provider.of<TaskData>(context, listen: false)
+                          .setTitle('Choose one from them.');
                       Navigator.pop(context);
                     },
                   )
