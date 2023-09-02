@@ -6,8 +6,53 @@ import 'package:todoey_flutter/models/task_data.dart';
 class AddTaskScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final state = Provider.of<TaskData>(context, listen: true).state;
     String newTaskTitle;
-    int state = Provider.of<TaskData>(context, listen: true).state;
+    final TextEditingController _controller = TextEditingController();
+
+    void _clearTextField() {
+      _controller.clear();
+    }
+
+    Widget buildTaskInput() {
+      return TextField(
+        controller: _controller,
+        autofocus: true,
+        textAlign: TextAlign.center,
+        onChanged: (newText) {
+          newTaskTitle = newText;
+        },
+      );
+    }
+
+    Widget buildOkButton() {
+      return FlatButton(
+        child: Text(
+          'OK',
+          style: TextStyle(
+            color: Colors.white,
+          ),
+        ),
+        color: Colors.lightBlueAccent,
+        onPressed: () {
+          Provider.of<TaskData>(context, listen: false).addTask(newTaskTitle);
+
+          if (state == 1) {
+            Provider.of<TaskData>(context, listen: false).addState();
+            Provider.of<TaskData>(context, listen: false)
+                .setTitle('Set a lower limit price.');
+            _clearTextField();
+          } else if (state == 2) {
+            Provider.of<TaskData>(context, listen: false).resetState();
+            Provider.of<TaskData>(context, listen: false)
+                .setTitle('Choose one from them.');
+            _clearTextField();
+            Navigator.pop(context);
+          }
+        },
+      );
+    }
+
     return Container(
       color: Color(0xff757575),
       child: Container(
@@ -30,66 +75,11 @@ class AddTaskScreen extends StatelessWidget {
                 color: Colors.lightBlueAccent,
               ),
             ),
-            state == 1
-                ? TextField(
-                    autofocus: true,
-                    textAlign: TextAlign.center,
-                    onChanged: (newText) {
-                      newTaskTitle = newText;
-                    },
-                  )
-                : SizedBox.shrink(),
-            state == 2
-                ? TextField(
-                    enabled: true,
-                    autofocus: true,
-                    textAlign: TextAlign.center,
-                    onChanged: (newText) {
-                      newTaskTitle = newText;
-                    },
-                  )
-                : SizedBox.shrink(),
-            state == 1
-                ? FlatButton(
-                    child: Text(
-                      'ok',
-                      style: TextStyle(
-                        color: Colors.white,
-                      ),
-                    ),
-                    color: Colors.lightBlueAccent,
-                    onPressed: () {
-                      Provider.of<TaskData>(context, listen: false)
-                          .addTask(newTaskTitle);
-                      Provider.of<TaskData>(context, listen: false).addState();
-                      Provider.of<TaskData>(context, listen: false)
-                          .setTitle('Set a lower limit price.');
-                    },
-                  )
-                : SizedBox
-                    .shrink(), // This will render an empty space with no size
-            state == 2
-                ? FlatButton(
-                    child: Text(
-                      'ok',
-                      style: TextStyle(
-                        color: Colors.white,
-                      ),
-                    ),
-                    color: Colors.lightBlueAccent,
-                    onPressed: () {
-                      Provider.of<TaskData>(context, listen: false)
-                          .resetState();
-                      Provider.of<TaskData>(context, listen: false)
-                          .setTitle('Choose one from them.');
-                      Navigator.pop(context);
-                    },
-                  )
-                : SizedBox.shrink(), // This w
             state == 0
-                ? Column(children: [
-                    RadioListTile(
-                        title: Text("crypto"),
+                ? Column(
+                    children: [
+                      RadioListTile(
+                        title: Text("Crypto"),
                         value: 0,
                         groupValue: null,
                         onChanged: (value) {
@@ -97,9 +87,10 @@ class AddTaskScreen extends StatelessWidget {
                               .addState();
                           Provider.of<TaskData>(context, listen: false)
                               .setTitle('Enter a code.');
-                        }),
-                    RadioListTile(
-                        title: Text("stock"),
+                        },
+                      ),
+                      RadioListTile(
+                        title: Text("Stock"),
                         value: 1,
                         groupValue: null,
                         onChanged: (value) {
@@ -107,10 +98,13 @@ class AddTaskScreen extends StatelessWidget {
                               .addState();
                           Provider.of<TaskData>(context, listen: false)
                               .setTitle('Enter a code.');
-                        }),
-                  ])
-                : SizedBox
-                    .shrink(), // This will render an empty space with no size
+                        },
+                      ),
+                    ],
+                  )
+                : SizedBox.shrink(),
+            state == 1 || state == 2 ? buildTaskInput() : SizedBox.shrink(),
+            state == 1 || state == 2 ? buildOkButton() : SizedBox.shrink(),
           ],
         ),
       ),
