@@ -26,14 +26,11 @@ class AddTaskScreen extends StatelessWidget {
     }
 
     Widget buildOkButton() {
-      return FlatButton(
-        child: Text(
-          'OK',
-          style: TextStyle(
-            color: Colors.white,
-          ),
+      return TextButton(
+        style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all<Color>(
+              Colors.lightBlueAccent), // Set your desired background color here
         ),
-        color: Colors.lightBlueAccent,
         onPressed: () {
           Provider.of<TaskData>(context, listen: false).addTask(newTaskTitle);
 
@@ -50,6 +47,12 @@ class AddTaskScreen extends StatelessWidget {
             Navigator.pop(context);
           }
         },
+        child: Text(
+          'OK',
+          style: TextStyle(
+            color: Colors.white,
+          ),
+        ),
       );
     }
 
